@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:futurista_edu/screens/home_screen.dart';
+import 'package:get/get.dart';
 
 void main(){
-  
+  runApp(const MyApp());
 }
 
 
@@ -10,6 +12,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return GetMaterialApp(
+      home: HomeScreen(),
+    );
   }
 }
