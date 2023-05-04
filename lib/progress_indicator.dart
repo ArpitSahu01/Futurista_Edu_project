@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:futurista_edu/extensions/extensions.dart';
+import 'package:futurista_edu/utils/utils.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:get/get.dart';
 
@@ -18,6 +20,13 @@ class _CircularIndicatorState extends State<CircularIndicator> {
       max: 100,
       min: 0,
       appearance:  CircularSliderAppearance(
+        infoProperties: InfoProperties(
+          modifier: (percentage) => "${percentage.toInt()}°C",
+          mainLabelStyle: kPoppinsMedium.copyWith(
+              fontSize: 20.0.sp,
+              color: const Color(0xff979C9E)
+          ),
+        ),
           angleRange: 360,
           startAngle: 0,
           size: Get.width * 0.4,
