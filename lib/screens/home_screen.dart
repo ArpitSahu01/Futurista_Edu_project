@@ -4,6 +4,7 @@ import 'package:futurista_edu/extensions/extensions.dart';
 import 'package:futurista_edu/models/progress_indicator.dart';
 import 'package:futurista_edu/utils/utils.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../models/custom_check_box.dart';
 
@@ -22,6 +23,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    String getDay(final timeStamp){
+      DateTime time = DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000);
+      String x = DateFormat("EEEE").format(time);
+      return x;
+    };
+
+    String getDate(final timeStamp){
+      DateTime time = DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000);
+      String x = DateFormat("d/M/y").format(time);
+      return x;
+    };
 
     return Scaffold(
       body: SafeArea(child:
@@ -63,7 +76,12 @@ class _HomeScreenState extends State<HomeScreen> {
               ListView.builder(
                 shrinkWrap: true,
                 itemBuilder: (ctx,index){
-                return WeatherInfo(day: "THURSDAY",date: "20/04/2023",maxTemp: "40°C",minTemp: "20°C",);
+                return WeatherInfo(
+                  day: getDay(controller.weatherData!.dailyWeatherData[index+1].time),
+                  date: getDate(controller.weatherData!.dailyWeatherData[index+1].time),
+                  maxTemp: controller.weatherData!.dailyWeatherData[index+1].maxTemp.toInt().toString(),
+                  minTemp: controller.weatherData!.dailyWeatherData[index+1].maxTemp.toInt().toString(),
+                );
               },itemCount: 5,
               )
             ],
