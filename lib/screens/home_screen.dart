@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:futurista_edu/extensions/extensions.dart';
-import 'package:futurista_edu/progress_indicator.dart';
+import 'package:futurista_edu/models/progress_indicator.dart';
 import 'package:futurista_edu/utils/utils.dart';
+
+import '../models/custom_check_box.dart';
 
 bool _currentTempCheck = true;
 
@@ -55,6 +57,13 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
             ),
+            SizedBox(height: 5.0.hp,),
+            ListView.builder(
+              shrinkWrap: true,
+              itemBuilder: (ctx,index){
+              return WeatherInfo(day: "THURSDAY",date: "20/04/2023",maxTemp: "40°C",minTemp: "20°C",);
+            },itemCount: 5,
+            )
           ],
         ),
       )),
@@ -63,31 +72,47 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 
-class CustomCheckBox extends StatelessWidget {
-
-  bool check;
-  String text;
-
-  CustomCheckBox({Key? key, required this.check,required this.text}) : super(key: key);
+class WeatherInfo extends StatelessWidget {
+  final String day;
+  final String date;
+  final String maxTemp;
+  final String minTemp;
+  const WeatherInfo({
+    Key? key,
+    required this.day,
+    required this.date,
+    required this.maxTemp,
+    required this.minTemp,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 1.0.hp),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-        Container(
-          width: 5.0.wp,
-          height: 5.0.wp,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(1.0.wp),
-            color: check ? Color(0xffFFB323) : Color(0xffEEEEEE),
-          ),
-        ),
-        SizedBox(width: 2.0.wp,),
-        Text(text,style: kPoppinsRegular.copyWith(
+        Text(
+          day,
+          style: kPoppinsRegular.copyWith(
+            fontSize: 12.0.sp,
           color: const Color(0xff979C9E),
-        ),)
+        ),
+        ),
+          Text(
+            date,
+            style: kPoppinsRegular.copyWith(
+              fontSize: 12.0.sp,
+              color: const Color(0xff979C9E),
+            ),
+          ),
+          Text(
+            "$maxTemp/$minTemp",
+            style: kPoppinsRegular.copyWith(
+              fontSize: 12.0.sp,
+              color: const Color(0xff979C9E),
+            ),
+          ),
       ],),
     );
   }
