@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:geolocator/geolocator.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class HomeController extends GetxController{
 
@@ -15,6 +17,7 @@ class HomeController extends GetxController{
     super.onInit();
   }
 
+  // fetching current location of device and updating values of longitude and latitude
   getLocation() async{
 
     LocationPermission permission;
@@ -44,8 +47,9 @@ class HomeController extends GetxController{
   }
 
 
+  // calling weather api to get weather data
   fetchWeatherData() async{
-
+  final url = Uri.parse("");
   }
 
 }
