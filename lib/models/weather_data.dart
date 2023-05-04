@@ -10,7 +10,7 @@ class WeatherData {
   factory WeatherData.fromJson(Map<String, dynamic> json) {
     return WeatherData(
       currentTemp: json["current"]["temp"],
-      dailyWeatherData: (json["daily"] as List<Map<String,dynamic>>).map((json) => DailyWeatherData.fromJson(json)).toList(),
+      dailyWeatherData: (json["daily"] as List<dynamic>).map((json) => DailyWeatherData.fromJson(json)).toList(),
     );
   }
 }

@@ -8,9 +8,10 @@ class DailyWeatherData {
     required this .maxTemp,
   });
 
-  factory DailyWeatherData.fromJson(Map<String, dynamic> json) => DailyWeatherData(
+  factory DailyWeatherData.fromJson(Map<String, dynamic> json) {
+    return DailyWeatherData(
     maxTemp: json["temp"]["max"],
     minTemp: json["temp"]["min"],
-  );
+  );}
 
 }
