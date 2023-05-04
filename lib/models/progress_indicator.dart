@@ -15,7 +15,9 @@ class CircularIndicator extends StatefulWidget {
 class _CircularIndicatorState extends State<CircularIndicator> {
   @override
   Widget build(BuildContext context) {
-    return  SleekCircularSlider(
+    return
+
+      SleekCircularSlider(
       initialValue: widget.value,
       max: 100,
       min: 0,

@@ -11,7 +11,9 @@ class HomeController extends GetxController{
   final RxDouble _latitude = 0.0.obs;
   final RxDouble _longitude = 0.0.obs;
   WeatherData? _weatherData;
+
   RxBool get isHomeLoading => _isHomeLoading;
+  WeatherData? get weatherData => _weatherData;
 
   @override
   void onInit() {

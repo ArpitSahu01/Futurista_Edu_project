@@ -18,8 +18,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final controller = Get.put(HomeController());
-  double maxTemp = 72;
-  double currTemp = 35;
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -32,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(height: 5.0.hp,),
               Text("TEMPERATURE IN CELSIUS",style: kPoppinsMedium.copyWith(fontSize: 15.0.sp),),
               SizedBox(height: 5.0.hp,),
-              Center(child: CircularIndicator(value: _currentTempCheck ? currTemp : maxTemp ,)),
+              Center(child: CircularIndicator(value: _currentTempCheck ? controller.weatherData?.currentTemp as double: controller.weatherData?.dailyWeatherData[0].maxTemp as double ,)),
               SizedBox(height: 5.0.hp,),
               Row(children: [
                 GestureDetector(
