@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import '../models/custom_check_box.dart';
 
 bool _currentTempCheck = true;
+bool _maxTempCheck = false;
 
 class HomeScreen extends StatefulWidget {
 
@@ -51,7 +52,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 GestureDetector(
                   onTap: (){
                     setState(() {
-                      _currentTempCheck = !_currentTempCheck;
+                      if(!_currentTempCheck){
+                        _currentTempCheck = !_currentTempCheck;
+                        _maxTempCheck = !_maxTempCheck;
+                      }
                     });
                   },
                     child: Padding(
@@ -62,7 +66,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 GestureDetector(
                   onTap: (){
                     setState(() {
-                      _currentTempCheck = !_currentTempCheck;
+                      //fix error to toggle when clicked
+
+                      if(!_maxTempCheck){
+                        _currentTempCheck = !_currentTempCheck;
+                        _maxTempCheck = !_maxTempCheck;
+                      }
                     });
                   },
                   child: Padding(
@@ -74,13 +83,14 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               SizedBox(height: 5.0.hp,),
               ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemBuilder: (ctx,index){
                 return WeatherInfo(
                   day: getDay(controller.weatherData!.dailyWeatherData[index+1].time),
                   date: getDate(controller.weatherData!.dailyWeatherData[index+1].time),
-                  maxTemp: controller.weatherData!.dailyWeatherData[index+1].maxTemp.toInt().toString(),
-                  minTemp: controller.weatherData!.dailyWeatherData[index+1].maxTemp.toInt().toString(),
+                  maxTemp: "${controller.weatherData!.dailyWeatherData[index+1].maxTemp.toInt()}",
+                  minTemp: "${controller.weatherData!.dailyWeatherData[index+1].maxTemp.toInt()}°C",
                 );
               },itemCount: 5,
               )
@@ -110,31 +120,43 @@ class WeatherInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 1.0.hp),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-        Text(
-          day,
-          style: kPoppinsRegular.copyWith(
-            fontSize: 12.0.sp,
-          color: const Color(0xff979C9E),
-        ),
-        ),
-          Text(
-            date,
-            style: kPoppinsRegular.copyWith(
-              fontSize: 12.0.sp,
+      child: Padding(
+        padding:  EdgeInsets.only(left: 2.0.wp),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+          SizedBox(
+            width: 24.0.wp,
+            child: Text(
+              day,
+              style: kPoppinsRegular.copyWith(
+                fontSize: 12.0.sp,
               color: const Color(0xff979C9E),
             ),
-          ),
-          Text(
-            "$maxTemp/$minTemp",
-            style: kPoppinsRegular.copyWith(
-              fontSize: 12.0.sp,
-              color: const Color(0xff979C9E),
             ),
           ),
-      ],),
+            SizedBox(
+              width: 24.0.wp,
+              child: Text(
+                date,
+                style: kPoppinsRegular.copyWith(
+                  fontSize: 12.0.sp,
+                  color: const Color(0xff979C9E),
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 24.0.wp,
+              child: Text(
+                "$maxTemp/$minTemp",
+                style: kPoppinsRegular.copyWith(
+                  fontSize: 12.0.sp,
+                  color: const Color(0xff979C9E),
+                ),
+              ),
+            ),
+        ],),
+      ),
     );
   }
 }
