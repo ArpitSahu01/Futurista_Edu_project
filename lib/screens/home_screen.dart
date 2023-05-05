@@ -39,62 +39,67 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       body: SafeArea(child:
-      Obx(
-        ()=> controller.isHomeLoading.value ? const Center(child: CircularProgressIndicator(),) : SingleChildScrollView(
-          child: Column(
-            children:  [
-              SizedBox(height: 5.0.hp,),
-              Text("TEMPERATURE IN CELSIUS",style: kPoppinsMedium.copyWith(fontSize: 15.0.sp),),
-              SizedBox(height: 5.0.hp,),
-              Center(child: CircularIndicator(value: _currentTempCheck ? controller.weatherData?.currentTemp as double: controller.weatherData?.dailyWeatherData[0].maxTemp as double ,)),
-              SizedBox(height: 5.0.hp,),
-              Row(children: [
-                GestureDetector(
-                  onTap: (){
-                    setState(() {
-                      if(!_currentTempCheck){
-                        _currentTempCheck = !_currentTempCheck;
-                        _maxTempCheck = !_maxTempCheck;
-                      }
-                    });
-                  },
+      Obx(()=> controller.isHomeLoading.value ? const Center(child: CircularProgressIndicator(),) : SingleChildScrollView(
+          child: RefreshIndicator(
+            onRefresh: () async{
+              await controller.fetchWeatherData();
+            },
+            child: ListView(
+              shrinkWrap: true,
+              children:  [
+                SizedBox(height: 5.0.hp,),
+                Center(child: Text("TEMPERATURE IN CELSIUS",style: kPoppinsMedium.copyWith(fontSize: 15.0.sp),)),
+                SizedBox(height: 5.0.hp,),
+                Center(child: CircularIndicator(value: _currentTempCheck ? controller.weatherData?.currentTemp as double: controller.weatherData?.dailyWeatherData[0].maxTemp as double ,)),
+                SizedBox(height: 5.0.hp,),
+                Row(children: [
+                  GestureDetector(
+                    onTap: (){
+                      setState(() {
+                        if(!_currentTempCheck){
+                          _currentTempCheck = !_currentTempCheck;
+                          _maxTempCheck = !_maxTempCheck;
+                        }
+                      });
+                    },
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: CustomCheckBox(check: _currentTempCheck,text: "CURRENT TEMPERATURE"),
+                      ),
+                  ),
+                  GestureDetector(
+                    onTap: (){
+                      setState(() {
+                        //fix error to toggle when clicked
+
+                        if(!_maxTempCheck){
+                          _currentTempCheck = !_currentTempCheck;
+                          _maxTempCheck = !_maxTempCheck;
+                        }
+                      });
+                    },
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: CustomCheckBox(check: _currentTempCheck,text: "CURRENT TEMPERATURE"),
+                      child: CustomCheckBox(check: !_currentTempCheck,text: "MAXIMUM TEMP",),
                     ),
-                ),
-                GestureDetector(
-                  onTap: (){
-                    setState(() {
-                      //fix error to toggle when clicked
-
-                      if(!_maxTempCheck){
-                        _currentTempCheck = !_currentTempCheck;
-                        _maxTempCheck = !_maxTempCheck;
-                      }
-                    });
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: CustomCheckBox(check: !_currentTempCheck,text: "MAXIMUM TEMP",),
                   ),
+                ],
                 ),
+                SizedBox(height: 5.0.hp,),
+                ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (ctx,index){
+                  return WeatherInfo(
+                    day: getDay(controller.weatherData!.dailyWeatherData[index+1].time),
+                    date: getDate(controller.weatherData!.dailyWeatherData[index+1].time),
+                    maxTemp: "${controller.weatherData!.dailyWeatherData[index+1].maxTemp.toInt()}",
+                    minTemp: "${controller.weatherData!.dailyWeatherData[index+1].maxTemp.toInt()}°C",
+                  );
+                },itemCount: 5,
+                )
               ],
-              ),
-              SizedBox(height: 5.0.hp,),
-              ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemBuilder: (ctx,index){
-                return WeatherInfo(
-                  day: getDay(controller.weatherData!.dailyWeatherData[index+1].time),
-                  date: getDate(controller.weatherData!.dailyWeatherData[index+1].time),
-                  maxTemp: "${controller.weatherData!.dailyWeatherData[index+1].maxTemp.toInt()}",
-                  minTemp: "${controller.weatherData!.dailyWeatherData[index+1].maxTemp.toInt()}°C",
-                );
-              },itemCount: 5,
-              )
-            ],
+            ),
           ),
         ),
       )),
